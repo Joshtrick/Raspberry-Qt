@@ -2,9 +2,19 @@
 
 MainWindow::MainWindow()
 {
+  //Dummy thread implementation
+  thread = new QThread;
+  worker = new DummyWorker;
+  worker->moveToThread(thread);
+  connect(worker, SIGNAL(error(QString)), this, SLOT(errorString(QString)));
+  connect(thread, SIGNAL(started()), worker, SLOT(process()));
+  connect(worker, SIGNAL(finished()), thread, SLOT(quit()));
+  connect(worker, SIGNAL(finished()), worker, SLOT(deleteLater()));
+  connect(thread, SIGNAL(finished()), thread, SLOT(deleteLater()));
+
   //Start button
   start_button = new QPushButton("Start");
-  QObject::connect(start_button, SIGNAL(clicked()), this, SLOT(backend_run()));
+  QObject::connect(start_button, SIGNAL(clicked()), thread, SLOT(start()));
   start_button->setMinimumSize(1920*0.03,1080*0.02);
   start_button->setMaximumSize(1920*0.03,1080*0.02);
 
@@ -44,6 +54,8 @@ MainWindow::MainWindow()
 
 MainWindow::~MainWindow()
 {
+  delete thread;
+  delete worker;
   delete start_button;
   delete quit_button;
   delete disp_label;
@@ -51,28 +63,4 @@ MainWindow::~MainWindow()
   delete disp_layout;
   delete button_layout;
   delete main_layout;
-}
-
-void MainWindow::backend_run()
-{
-  std::thread thread_1(hello_loop_1);
-  thread_1.detach();
-
-  std::thread thread_2(hello_loop_2);
-  thread_2.detach();
-}
-
-void MainWindow::hello_loop_1()
-{
-  while(1)
-  {
-    hello_1();
-  }
-}
-void MainWindow::hello_loop_2()
-{
-  while(1)
-  {
-    hello_2();
-  }
 }

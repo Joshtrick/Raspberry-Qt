@@ -9,8 +9,9 @@
 #include <QPushButton>
 #include <QHBoxLayout>
 #include <QVBoxLayout>
+#include <QThread>
 
-#include "hello.hpp"
+#include "dummyworker.hpp"
 
 class MainWindow : public QWidget
 {
@@ -19,8 +20,9 @@ public:
   MainWindow();
   ~MainWindow();
 
-  static void hello_loop_1();
-  static void hello_loop_2();
+  QThread *thread;
+  DummyWorker *worker;
+
 private:
   QPushButton *quit_button;
   QPushButton *start_button;
@@ -30,8 +32,6 @@ private:
   QVBoxLayout *disp_layout;
   QHBoxLayout *button_layout;
 
-private slots:
-  void backend_run();
 };
 
 #endif
