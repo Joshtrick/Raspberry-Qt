@@ -2,21 +2,17 @@
 
 MainWindow::MainWindow()
 {
-  //Dummy thread implementation
-  thread = new QThread;
-  worker = new DummyWorker;
-  worker->moveToThread(thread);
-  connect(worker, SIGNAL(error(QString)), this, SLOT(errorString(QString)));
-  connect(thread, SIGNAL(started()), worker, SLOT(process()));
-  connect(worker, SIGNAL(finished()), thread, SLOT(quit()));
-  connect(worker, SIGNAL(finished()), worker, SLOT(deleteLater()));
-  connect(thread, SIGNAL(finished()), thread, SLOT(deleteLater()));
-
   //Start button
   start_button = new QPushButton("Start");
-  QObject::connect(start_button, SIGNAL(clicked()), thread, SLOT(start()));
+  QObject::connect(start_button, SIGNAL(clicked()), this, SLOT(backend_run()));
   start_button->setMinimumSize(1920*0.03,1080*0.02);
   start_button->setMaximumSize(1920*0.03,1080*0.02);
+
+  //Start button
+  another_start_button = new QPushButton("Start2");
+  QObject::connect(another_start_button, SIGNAL(clicked()), this, SLOT(another_backend_run()));
+  another_start_button->setMinimumSize(1920*0.03,1080*0.02);
+  another_start_button->setMaximumSize(1920*0.03,1080*0.02);
 
   //Quit button
   quit_button = new QPushButton("Quit");
@@ -47,6 +43,7 @@ MainWindow::MainWindow()
   disp_layout->addLayout(button_layout);
   button_layout->addWidget(start_button);
   button_layout->addWidget(quit_button);
+  button_layout->addWidget(another_start_button);
 
   setGeometry(0,0,1920*0.55,1080*0.55);
   setLayout(main_layout);
@@ -54,9 +51,8 @@ MainWindow::MainWindow()
 
 MainWindow::~MainWindow()
 {
-  delete thread;
-  delete worker;
   delete start_button;
+  delete another_start_button;
   delete quit_button;
   delete disp_label;
   delete rst_label;
@@ -64,3 +60,28 @@ MainWindow::~MainWindow()
   delete button_layout;
   delete main_layout;
 }
+
+char MainWindow::dummy_val = 'h';
+
+void MainWindow::backend_run()
+{
+
+  pthread_create(&thread1, NULL, thread_1, this);
+  pthread_detach(thread1);
+
+}
+
+void MainWindow::another_backend_run()
+{
+
+  pthread_create(&thread2, NULL, thread_2, this);
+  pthread_detach(thread2);
+
+}
+
+
+
+
+
+
+

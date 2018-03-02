@@ -1,7 +1,8 @@
 #ifndef MAINWINDOW_HPP
 #define MAINWINDOW_HPP
 
-#include <thread>
+#include <pthread.h>
+#include <string.h>
 
 #include <QMainWindow>
 #include <QApplication>
@@ -9,9 +10,12 @@
 #include <QPushButton>
 #include <QHBoxLayout>
 #include <QVBoxLayout>
-#include <QThread>
+#include <QMutex>
 
-#include "dummyworker.hpp"
+#include "mythreads.hpp"
+#define THREAD_NUM 2
+
+using namespace std;
 
 class MainWindow : public QWidget
 {
@@ -20,12 +24,21 @@ public:
   MainWindow();
   ~MainWindow();
 
-  QThread *thread;
-  DummyWorker *worker;
+  QMutex mutex_dummy;
+
+  pthread_t thread1;
+  pthread_t thread2;
+
+  static char dummy_val;
+
+public slots:
+  void backend_run();
+  void another_backend_run();
 
 private:
   QPushButton *quit_button;
   QPushButton *start_button;
+  QPushButton *another_start_button;
   QLabel *disp_label;
   QLabel *rst_label;
   QHBoxLayout *main_layout;
