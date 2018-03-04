@@ -10,6 +10,7 @@ TcpIp::~TcpIp()
 
 }
 
+//Server creation
 void TcpIp::server_create(int port, const char *ip)
 {
   int opt = 1;
@@ -36,6 +37,7 @@ void TcpIp::server_create(int port, const char *ip)
   }
 }
 
+//Server Listening
 void TcpIp::server_listen()
 {
   if(listen(this->socket_fd, 3) < 0)
@@ -45,6 +47,7 @@ void TcpIp::server_listen()
   }
 }
 
+//Server acception
 void TcpIp::server_accept()
 {
   int addr_len = sizeof(this->address);
@@ -56,6 +59,7 @@ void TcpIp::server_accept()
   }
 }
 
+//Client creation
 void TcpIp::client_create(int port, const char *ip)
 {
   if((this->socket_fd = socket(AF_INET, SOCK_STREAM, 0)) < 0)
@@ -66,8 +70,9 @@ void TcpIp::client_create(int port, const char *ip)
   this->address.sin_family = AF_INET;
   this->address.sin_addr.s_addr = inet_addr(ip);
   this->address.sin_port = htons(port);
-
 }
+
+//Client connecting to server
 void TcpIp::client_connect()
 {
   if(connect(this->socket_fd, (struct sockaddr *)&address, sizeof(address)) < 0)
@@ -77,6 +82,7 @@ void TcpIp::client_connect()
   }
 }
 
+//Close a socket
 void TcpIp::socket_close(int &socket)
 {
   shutdown(socket, SHUT_RD);
