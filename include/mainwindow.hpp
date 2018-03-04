@@ -13,6 +13,8 @@
 #include <QMutex>
 
 #include "mythreads.hpp"
+#include "tcpip.hpp"
+
 #define THREAD_NUM 2
 
 using namespace std;
@@ -28,6 +30,8 @@ public:
 
   pthread_t thread1;
   pthread_t thread2;
+
+  TcpIp server_tcp;
 
   static char dummy_val;
 
