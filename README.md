@@ -6,36 +6,34 @@ This repository is a basic template for a Qt5 project for a customized camera sy
 
 ```
 .
-├── include
-|   └── {customized_lib_header_files}
+├── config
+|   └── <binary files or parameters for configuration>
+├── script
+|   └── <cusomized scripts>
+├── inc
+|   ├── engine
+|   |   └── <header files of engine>
+|   ├── parser
+|   |   └── <header files of parser>
+|   └── utility
+|       └── <header files of utility>
 ├── src
-|   ├── {customized_lib_source_files}
+|   ├── engine
+|   |   └── <source codes of engine>
+|   ├── parser
+|   |   └── <source codes of parser>
+|   └── utility
+|       └── <source codes of utility>
+├── test
 |   ├── CMakeLists.txt
-|   └── tools
-|       ├── {main_files}
-|       └── CMakeLists.txt
-├── data
-|   └── {test_data_etc}
+|   └── <surce codes of test case and use case>
 ├── CMakeLists.txt
 ├── .gitignore
 └── README.md
 ```
-
-Directory [include/](./include) contains all the header files needed for the project.
-
-Directory [src/](./src) contains all the source files needed for the project.
-
-Subdirectory [tools/](./src/tools) of [src/](./src) contains the main files for execution.
-
-Directory [data/](./data) contains all the testing files/data needed for the project.
-
-## Quick start
-
-Download the reporitory and do the following steps:
-
-1. cd {your_repo_root}
-2. mkdir build
-3. cd build
-4. cmake ..
-5. make
-6. ./bin/demo
+Directories [inc](./include) and [src](./src) both have 3 subtirectories:
+1. engine
+2. parser
+3. utility
+These subdirectories are used to store header files and source codes for different purposes.
+engine
